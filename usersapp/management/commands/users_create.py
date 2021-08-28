@@ -13,9 +13,9 @@ class Command(BaseCommand):
         User.objects.all().delete()
         count = options['count']
         for i in range(count):
-            user = User.objects.create(username=f'логин{i}',
-                                       firstname=f'имя{i}',
-                                       lastname=f'фамилия{i}',
-                                       email=f'адрес{i}')
+            user = User.objects.create_user(username=f'логин{i}',
+                                            firstname=f'имя{i}',
+                                            lastname=f'фамилия{i}',
+                                            email=f'email{i}')
             print(f'пользователь {user} создан')
         print('Выполнено')
