@@ -30,12 +30,27 @@ body {
 
 .top {
     width: 100%;
-    min-height: 600px;
+
     background: linear-gradient(0deg, #EBF3FB 8.84%, rgba(152, 195, 232, 0) 31.12%);
 }
 
 .top__info {
     padding-top: 115px;
+}
+
+.top__button {
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+    background: #5A98D0;
+    box-shadow: 5px 10px 20px rgba(53, 110, 173, 0.2);
+    border-radius: 10px;
+    padding: 15px 50px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 71px;
 }
 
 .container {
@@ -44,11 +59,11 @@ body {
 }
 
 .top__info {
-    padding-top: 115px;
+    padding: 70px 30px;
     flex-grow: 1;
     background-image: url(img/top__back.png);
     background-repeat: no-repeat;
-    background-size: 44%;
+    background-size: 30%;
     background-position: right center;
 }
 
@@ -163,7 +178,7 @@ body {
 }
 
 .top__heading {
-    font-size: 64px;
+    font-size: 84px;
     color: #1f3f68;
     width: 510px;
     font-weight: 300;
@@ -210,9 +225,6 @@ body {
     .container {
         padding-left: 32px;
         padding-right: 32px;
-    }
-    .top__info {
-        background-position: right 215px;
     }
 
     .footer__top {
@@ -263,8 +275,8 @@ body {
     }
 
     .top {
-        min-height: 376px;
-        padding-bottom: 41px;
+
+
         box-sizing: border-box;
     }
 
