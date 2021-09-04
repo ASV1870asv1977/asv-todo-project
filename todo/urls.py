@@ -27,6 +27,7 @@ router.register('projectsapp', ProjectViewSet)
 router.register('todos', TodoViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('views/', include('usersapp.urls')),
+    path('admin/', admin.site.urls),
 ]

@@ -5,8 +5,11 @@ from usersapp.models import User
 
 class Project(models.Model):
     name = models.CharField('Название проекта', max_length=64, unique=True)
-    url_repo = models.CharField('Ссылка на репозиторий', max_length=128, blank=True)
+    url_repo = models.URLField('Ссылка на репозиторий', max_length=128, blank=True)
     users = models.ManyToManyField(User)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Todo(models.Model):
@@ -16,5 +19,3 @@ class Todo(models.Model):
     created_at = models.DateTimeField('Дата созданния', auto_now_add=True)
     update_at = models.DateTimeField('Дата обновления', auto_now=True)
     is_activ = models.BooleanField(default=False)
-
-
