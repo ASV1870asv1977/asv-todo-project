@@ -18,15 +18,15 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from projectsapp.views import ProjectViewSet, TodoViewSet
-from usersapp.views import UsersViewSet
+from usersapp.views import UserCustomViewSet
 
 
 router = DefaultRouter()
-router.register('usersapp', UsersViewSet)
+router.register('usersapp', UserCustomViewSet)
 router.register('projectsapp', ProjectViewSet)
 router.register('todos', TodoViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('admin/', admin.site.urls),
 ]
