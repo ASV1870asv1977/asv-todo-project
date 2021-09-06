@@ -6,13 +6,8 @@ from usersapp.models import User
 from usersapp.serializers import UserModelSerializer
 
 
-class UsersViewSet(ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserModelSerializer
-
-
-class UserCustomViewSet(mixins.CreateModelMixin,
-                        mixins.ListModelMixin,
+class UserCustomViewSet(mixins.ListModelMixin,
+                        mixins.UpdateModelMixin,
                         mixins.RetrieveModelMixin,
                         viewsets.GenericViewSet):
     queryset = User.objects.all()
