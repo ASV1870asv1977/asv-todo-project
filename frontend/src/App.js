@@ -1,39 +1,100 @@
 import './App.css';
 import React from "react";
 
-import UserList from "./components/User";
 import axios from "axios";
+import UserList from "./components/User";
+import ProjectList from "./components/Projects";
+import TodosList from "./components/Todos";
+import {BrowserRouter, Route, Switch, Link, Redirect} from "react-router-dom";
+import MainPage from "./components/main";
+import ProjectPage from "./components/ProjectTodos";
+import ProjectTodoList from "./components/ProjectTodos";
+import SoloProjectList from "./components/ProjectTodos";
 
+
+const pageNotFound404 = ({location}) => {
+    return (
+        <div>
+            <MainPage>
+
+            </MainPage>
+            <h1>Страница '{location.pathname}' не существует</h1>
+        </div>
+    )
+}
 
 const API_ROOT = 'http://127.0.0.1:8000/api/';
-const get_url = (name_app) => `${API_ROOT}${name_app}`;
+const get_url = (name_page) => `${API_ROOT}${name_page}`;
 
 class App extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            'users': []
-        };
+            users: [],
+            projects: [],
+            todos: []
+        }
     }
 
     componentDidMount() {
         axios
-            .get( get_url('usersapp'))
+            .get(get_url('users'))
             .then(response => {
-                const users = response.data
+                const users = response.data['results']
+                console.log(users) // ----------------------------------
                 this.setState(
                     {
-                        'users': users
+                        users: users
+                    }
+                )
+            })
+            .catch(error => console.log(error))
+
+        axios
+            .get(get_url('projects'))
+            .then(response => {
+                const projects = response.data['results']
+                console.log(projects) // ----------------------------------
+
+                this.setState(
+                    {
+                        projects: projects
+                    }
+                )
+            })
+            .catch(error => console.log(error))
+
+        axios
+            .get(get_url('todos'))
+            .then(response => {
+                const todos = response.data['results']
+                console.log(todos) // ----------------------------------
+                this.setState(
+                    {
+                        todos: todos
                     }
                 )
             })
             .catch(error => console.log(error))
     }
 
-
     render() {
         return (
-            <UserList users={this.state.users}/>
+            <div className={'App'}>
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path={'/'} component={() => <MainPage/>}/>
+                        <Route exact path={'/projects'}
+                               component={() => <ProjectList projects={this.state.projects}/>}/>
+                        <Route exact path={'/todos/'} component={() => <TodosList todos={this.state.todos}/>}/>
+                        <Route path={'/project/:id'} component={() => <ProjectTodoList todos={this.state.todos}/>}/>
+                        <Route exact path={'/users/'} component={() => <UserList users={this.state.users}/>}/>
+                        <Route component={pageNotFound404}/>
+                    </Switch>
+                </BrowserRouter>
+            </div>
+
         )
     }
 }
