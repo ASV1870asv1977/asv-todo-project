@@ -1,5 +1,5 @@
 import React from "react";
-import {useParams} from "react-router-dom";
+import {useParams, useLocation} from "react-router-dom";
 
 import MainPage from "./main";
 
@@ -39,7 +39,10 @@ const ProjectTodoList = ({todos}) => {
     console.log('id------', id);
     console.log('todos---!!!', todos);
 
-    let filteredTodos = todos.filter((todo) => todo.id.short_note === +id);
+
+
+
+    let filteredTodos = todos.filter((todo) => todo.short_note === +id);
     console.log('filteredTodos------', filteredTodos);
 
     return (
@@ -49,7 +52,7 @@ const ProjectTodoList = ({todos}) => {
             </MainPage>
             <table>
                 <tbody>
-                <h1>{id}</h1>
+                {/*<h1>{id}</h1>*/}
                 <tr>
                     <th>ID</th>
                     <th>Short note</th>

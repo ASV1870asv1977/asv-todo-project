@@ -11,7 +11,7 @@ class ProjectModelSerializer(HyperlinkedModelSerializer):
 
 
 class TodoModelSerializer(HyperlinkedModelSerializer):
-    short_note = SlugRelatedField(queryset=Project.objects.all(), slug_field='name')
+    short_note = SlugRelatedField(queryset=Project.objects.all(), slug_field='id')
     created_by = SlugRelatedField(queryset=User.objects.all(), slug_field='username')
 
     class Meta:
