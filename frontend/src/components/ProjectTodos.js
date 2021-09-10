@@ -1,7 +1,7 @@
 import React from "react";
-import {useParams} from "react-router-dom";
+import {useParams, useLocation} from "react-router-dom";
 
-import MainPage from "./main";
+import HeaderNavi from "./Naviheader";
 
 
 const TodoItem = ({todo}) => {
@@ -39,14 +39,17 @@ const ProjectTodoList = ({todos}) => {
     console.log('id------', id);
     console.log('todos---!!!', todos);
 
-    let filteredTodos = todos.filter((todo) => todo.id.short_note === +id);
+
+
+
+    let filteredTodos = todos.filter((todo) => todo.short_note === +id);
     console.log('filteredTodos------', filteredTodos);
 
     return (
         <div>
-            <MainPage>
+            <HeaderNavi>
 
-            </MainPage>
+            </HeaderNavi>
             <table>
                 <tbody>
                 <h1>{id}</h1>
