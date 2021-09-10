@@ -1,7 +1,7 @@
 import React from "react";
 import {useParams, useLocation} from "react-router-dom";
 
-import MainPage from "./main";
+import HeaderNavi from "./Naviheader";
 
 
 const TodoItem = ({todo}) => {
@@ -47,9 +47,9 @@ const ProjectTodoList = ({todos}) => {
 
     return (
         <div>
-            <MainPage>
+            <HeaderNavi>
 
-            </MainPage>
+            </HeaderNavi>
             <table>
                 <tbody>
                 <h1>{id}</h1>

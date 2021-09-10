@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import MainPage from "./main";
+import HeaderNavi from "./Naviheader";
 
 
 const UserItem = ({user}) => {
@@ -17,9 +17,9 @@ const UserItem = ({user}) => {
 const UserList = ({users}) => {
     return (
         <div>
-            <MainPage>
+            <HeaderNavi>
 
-            </MainPage>
+            </HeaderNavi>
             <table>
                 <tbody>
                 <tr>

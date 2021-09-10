@@ -6,7 +6,7 @@ import UserList from "./components/User";
 import ProjectList from "./components/Projects";
 import TodosList from "./components/Todos";
 import {BrowserRouter, Route, Switch, Link, Redirect} from "react-router-dom";
-import MainPage from "./components/main";
+import HeaderNavi from "./components/Naviheader";
 import ProjectPage from "./components/ProjectTodos";
 import ProjectTodoList from "./components/ProjectTodos";
 import SoloProjectList from "./components/ProjectTodos";
@@ -15,9 +15,9 @@ import SoloProjectList from "./components/ProjectTodos";
 const pageNotFound404 = ({location}) => {
     return (
         <div>
-            <MainPage>
+            <HeaderNavi>
 
-            </MainPage>
+            </HeaderNavi>
             <h1>Страница '{location.pathname}' не существует</h1>
         </div>
     )
@@ -84,7 +84,7 @@ class App extends React.Component {
             <div className={'App'}>
                 <BrowserRouter>
                     <Switch>
-                        <Route exact path={'/'} component={() => <MainPage/>}/>
+                        <Route exact path={'/'} component={() => <HeaderNavi/>}/>
                         <Route exact path={'/projects'}
                                component={() => <ProjectList projects={this.state.projects}/>}/>
                         <Route exact path={'/todos/'} component={() => <TodosList todos={this.state.todos}/>}/>
