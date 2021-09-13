@@ -5,4 +5,4 @@ from usersapp.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('username', 'id', 'first_name', 'last_name', 'email')
