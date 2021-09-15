@@ -84,8 +84,8 @@ class App extends React.Component {
             <div className={'App'}>
                 <BrowserRouter>
                     <Switch>
-                        <Route exact path={'/'} component={() => <HeaderNavi/>}/>
-                        <Route exact path={'/projects'}
+                        {/*<Route exact path={'/'} component={() => <HeaderNavi/>}/>*/}
+                        <Route exact path={'/'}
                                component={() => <ProjectList projects={this.state.projects}/>}/>
                         <Route exact path={'/todos/'} component={() => <TodosList todos={this.state.todos}/>}/>
                         <Route path={'/project/:id'} component={() => <ProjectTodoList todos={this.state.todos}/>}/>
@@ -94,7 +94,6 @@ class App extends React.Component {
                     </Switch>
                 </BrowserRouter>
             </div>
-
         )
     }
 }
