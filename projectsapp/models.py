@@ -11,6 +11,9 @@ class Project(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    class Meta:
+        ordering = ['pk']
+
 
 class Todo(models.Model):
     short_note = models.ForeignKey(Project, related_name='project_name', on_delete=models.CASCADE)
@@ -19,3 +22,6 @@ class Todo(models.Model):
     created_at = models.DateTimeField('Дата созданния', auto_now_add=True)
     update_at = models.DateTimeField('Дата обновления', auto_now=True)
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['pk']
