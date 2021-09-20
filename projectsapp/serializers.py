@@ -1,10 +1,11 @@
-from rest_framework.serializers import HyperlinkedModelSerializer, SlugRelatedField
+from rest_framework.serializers import HyperlinkedModelSerializer, SlugRelatedField, ModelSerializer
 
 from projectsapp.models import Project, Todo
 from usersapp.models import User
 
 
-class ProjectModelSerializer(HyperlinkedModelSerializer):
+class ProjectModelSerializer(ModelSerializer):
+
     class Meta:
         model = Project
         fields = ['id', 'name', 'users', 'url_repo']
@@ -12,7 +13,7 @@ class ProjectModelSerializer(HyperlinkedModelSerializer):
 
 class TodoModelSerializer(HyperlinkedModelSerializer):
     short_note = SlugRelatedField(queryset=Project.objects.all(), slug_field='id')
-    created_by = SlugRelatedField(queryset=User.objects.all(), slug_field='username')
+    created_by = SlugRelatedField(queryset=User.objects.all(), slug_field='last_name')
 
     class Meta:
         model = Todo

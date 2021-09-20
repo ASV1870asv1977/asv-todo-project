@@ -39,39 +39,15 @@ const TodoItem = ({todo}) => {
     )
 }
 
-
-const ProjectTodoList = ({todos}) => {
+// ======================================================================================================
+const ProjectDetails = ({projects}) => {
     let {id} = useParams();
-    let filteredTodos = todos.filter((todo) => todo.short_note === +id);
+    let filteredTodos = this.props.value.filter((todo) => todo.short_note === +id);
+
+    let filteredProject = projects.filter((project) => project.id === +id);
+
     return (
         <div>
-            <div className={"top__space"}>
-                <div className={"container top__menu__container"}>
-                    <div className={'top__menu'}>
-                        <Link to={'/'} className={"top__menu__text top__menu__navi"}>
-                            <img src={projects} className={'top__menu__image'}/>
-                            Проекты
-                        </Link>
-                        <Link to={'/todos/'} className={"top__menu__text top__menu__navi-active"}>
-                            <img src={todosImg} className={'top__menu__image'}/>
-                            Заметки
-                        </Link>
-                        <Link to={'/users/'} className={"top__menu__text top__menu__navi"}>
-                            <img src={usersImg} className={'top__menu__image'}/>
-                            Сотрудники
-                        </Link>
-                    </div>
-                    <form className={'top__menu'}>
-                        <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
-                        <div className={'top__menu__search__button-area'}
-                             type="submit" value=" ">
-                            <img src={search} className={'top__menu__image'}/>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <HeaderNavi>
-            </HeaderNavi>
             <div className={"navi__bottom"}>
                 <div className={"container navi__content"}>
                     <div className={'top__menu'}>
@@ -88,6 +64,11 @@ const ProjectTodoList = ({todos}) => {
                         </form>
                     </div>
                 </div>
+            </div>
+
+            <div>
+                <p>{filteredProject.name}</p>
+                <p>{filteredProject.users}</p>
             </div>
 
             <div className={'content'}>
@@ -122,4 +103,4 @@ const ProjectTodoList = ({todos}) => {
     )
 }
 
-export default ProjectTodoList;
+export default ProjectDetails;

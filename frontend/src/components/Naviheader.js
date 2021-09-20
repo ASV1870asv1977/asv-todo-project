@@ -6,12 +6,14 @@ import usersImg from "../img/users.png";
 import search from "../img/search.png";
 import main from "../img/main.png";
 import inTodo from "../img/intodo.png";
+import outTodo from "../img/outtodo.png";
 
 
 class HeaderNavi extends React.Component {
 
     render() {
         return (
+
             <div>
                 <div className={"top__space"}>
                     <div className={"container top__menu__container"}>
@@ -22,7 +24,8 @@ class HeaderNavi extends React.Component {
                             </Link>
                         </div>
 
-                        {this.props.items ?
+                        {this.props.token ?
+
                             <div className={'top__menu'}>
                                 <Link to={'/projects/'} className={"top__menu__text top__menu__navi"}>
                                     <img src={projectsImg} className={'top__menu__image'}/>
@@ -41,19 +44,21 @@ class HeaderNavi extends React.Component {
 
                         <form className={'top__menu'}>
                             <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
-                            <div className={'top__menu__search__button-area'}
-                                 type="submit" value=" ">
+                            <div className={'top__menu__search__button-area'} type="submit" value=" ">
                                 <img src={search} className={'top__menu__image'}/>
                             </div>
                         </form>
 
-                        {this.props.items ?
+                        {this.props.token ?
                             <div className={'top__menu__navi-link'}>
+                                <div className={"top__menu__text top__menu__navi"}>
+                                    <p>Пользователь:</p>
+                                </div>
+                                <p style={{color: '#316099'}}><b>{this.props.username}</b></p>
                                 <Link to={'/'} className={"top__menu__text top__menu__navi"}
                                       onClick={() => {this.props.logout()}}>
-                                    <img src={inTodo} className={'top__menu__image'}/>
+                                    <img src={outTodo} className={'top__menu__image'}/>
                                     <p>Выход</p>
-
                                 </Link>
                             </div> :
                             <div className={'top__menu__navi-link'}>
