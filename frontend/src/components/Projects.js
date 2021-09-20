@@ -6,6 +6,18 @@ import addProject from "../img/addProject.png";
 
 
 const ProjectItem = ({project}) => {
+    let usersStorage = JSON.parse(localStorage.getItem('usersStorage'));
+    var authors = [];
+    for (var projectUser of project.users) {
+        for (var user of usersStorage) {
+            if (projectUser === user['id']) {
+                projectUser = user['first_name'][0] + '.' + user['last_name'];
+                authors.push(projectUser)
+            }
+        }
+    }
+    console.log(authors)
+
     return (
         <div className={'container'}>
             <div className="card__box__list">
@@ -17,10 +29,10 @@ const ProjectItem = ({project}) => {
                         {project.name}
                     </div>
                     <div className="card__box__component-element">
-                        <a>{project.url_repo}</a>
+                        <a href={project.url_repo}>{project.url_repo}</a>
                     </div>
                     <div className="card__box__component-element">
-                        {project.users}
+                        {authors + ' '}
                     </div>
                 </div>
                 <hr/>

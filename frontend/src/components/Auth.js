@@ -1,6 +1,10 @@
 import React from "react";
-import HeaderNavi from "./Naviheader";
 import {Link} from "react-router-dom";
+
+import facebook from "../img/facebook.png";
+import twitter from "../img/twitter.png";
+import instagram from "../img/instagram.png";
+import google from "../img/google.png";
 
 
 class LoginForm extends React.Component {
@@ -27,15 +31,37 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={(event) => this.handlerOnSubmit(event)}>
-                    <input type="text" name="username"
-                           onChange={(event) => this.handlerOnChange(event)}/>
-                    <input type="password" name="password"
-                           onChange={(event) => this.handlerOnChange(event)}/>
-                    <input type="submit" value="login"/>
-                </form>
-            </div>
+                <div className="auth_main" id={"auth_main"}>
+                    <div className="auth_main_content">
+                        <div className="auth_main_content_header">
+                            <h2 style={{color: "#253c58"}}>To Do</h2>
+                            <p>Авторизация пользователя</p>
+                        </div>
+                        <form className="auth_main_content_body" action=""
+                              onSubmit={(event) => this.handlerOnSubmit(event)}>
+                            <input className="auth_main_content_body_input"
+                                   type="text"
+                                   name="username"
+                                   placeholder=" Логин"
+                                   onChange={(event) => this.handlerOnChange(event)}/>
+                            <input className="auth_main_content_body_input"
+                                   type="password"
+                                   name="password"
+                                   placeholder=" Пароль"
+                                   onChange={(event) => this.handlerOnChange(event)}/>
+
+                            <input className="auth_main_content_body_submit"
+                                   type="submit"
+                                   value="Авторизироваться"/>
+                        </form>
+                        <div className="auth_main_content_footer">
+                            <img src={facebook} alt=""/>
+                            <img src={twitter} alt=""/>
+                            <img src={instagram} alt=""/>
+                            <img src={google} alt=""/>
+                        </div>
+                    </div>
+                </div>
         )
     }
 }

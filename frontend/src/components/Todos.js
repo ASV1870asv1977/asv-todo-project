@@ -6,6 +6,18 @@ import filtering from "../img/filtering.png";
 
 
 const TodoItem = ({todo}) => {
+
+    let projectsStorage = JSON.parse(localStorage.getItem('projectsStorage'));
+
+
+    for (var project of projectsStorage) {
+        if (todo.short_note === project['id']) {
+            todo.short_note = project['name'];
+
+        }
+
+    }
+
     return (
         <div className={'container'}>
             <div className="card__box__list">
@@ -22,10 +34,10 @@ const TodoItem = ({todo}) => {
                         {todo.created_by}
                     </div>
                     <div className="card__box__component-element">
-                        {todo.created_at}
+                        {todo.created_at.slice(0, 10)}
                     </div>
                     <div className="card__box__component-element">
-                        {todo.update_at}
+                        {todo.update_at.slice(0, 16).replace('T', ' ')}
                     </div>
                 </div>
                 <hr/>

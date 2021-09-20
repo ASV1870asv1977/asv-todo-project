@@ -23,7 +23,7 @@ const UserItem = ({user}) => {
                         {user.last_name}
                     </div>
                     <div className="card__box__component-element">
-                        <a href={user.email}>{user.email}</a>
+                        {user.email}
                     </div>
                 </div>
                 <hr/>
