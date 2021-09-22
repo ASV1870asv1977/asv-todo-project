@@ -16,12 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.schemas import get_schema_view
 
 from projectsapp.views import ProjectViewSet, TodoViewSet
 from usersapp.views import UserCustomViewSet
 
+
+schema_view = get_schema_view(
+    title="TODO API",
+    permission_classes=[IsAuthenticatedOrReadOnly],
+)
 
 router = DefaultRouter()
 router.register('users', UserCustomViewSet)
@@ -31,7 +38,8 @@ router.register('todos', TodoViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api-token-auth/', obtain_auth_token),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token-auth/', obtain_auth_token),
+    path('api/token-jwt/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token-jwt-refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('schema/', schema_view),
 ]

@@ -5,17 +5,13 @@ import addTodo from "../img/addTodo.png";
 import filtering from "../img/filtering.png";
 
 
-const TodoItem = ({todo}) => {
+const TodoItem = ({todo, projects}) => {
 
-    let projectsStorage = JSON.parse(localStorage.getItem('projectsStorage'));
-
-
+    let projectsStorage = projects;
     for (var project of projectsStorage) {
         if (todo.short_note === project['id']) {
             todo.short_note = project['name'];
-
         }
-
     }
 
     return (
@@ -46,7 +42,7 @@ const TodoItem = ({todo}) => {
     )
 }
 
-const TodosList = ({todos}) => {
+const TodosList = ({todos, projects}) => {
     return (
         <div>
 
@@ -94,7 +90,7 @@ const TodosList = ({todos}) => {
                     </div>
                 </div>
 
-                {todos.map((todo) => <TodoItem todo={todo}/>)}
+                {todos.map((todo) => <TodoItem todo={todo} projects={projects}/>)}
 
             </div>
         </div>
