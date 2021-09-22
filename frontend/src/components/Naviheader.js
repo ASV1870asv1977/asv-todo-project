@@ -7,13 +7,13 @@ import search from "../img/search.png";
 import main from "../img/main.png";
 import inTodo from "../img/intodo.png";
 import outTodo from "../img/outtodo.png";
+import userAuth from "../img/userAuth.png";
 
 
 class HeaderNavi extends React.Component {
 
     render() {
         return (
-
             <div>
                 <div className={"top__space"}>
                     <div className={"container top__menu__container"}>
@@ -51,10 +51,10 @@ class HeaderNavi extends React.Component {
 
                         {this.props.token ?
                             <div className={'top__menu__navi-link'}>
-                                <div className={"top__menu__text top__menu__navi"}>
-                                    <p>Пользователь:</p>
+                                <div className={"top__menu__text top__menu__navi"} style={{margin: '0'}}>
+                                    <img src={userAuth} className={'top__menu__image'} style={{marginRight: '0'}}/>
                                 </div>
-                                <p style={{color: '#316099'}}><b>{this.props.username}</b></p>
+                                <p style={{color: '#316099', fontSize: '15px'}}>{this.props.username}</p>
                                 <Link to={'/'} className={"top__menu__text top__menu__navi"}
                                       onClick={() => {this.props.logout()}}>
                                     <img src={outTodo} className={'top__menu__image'}/>

@@ -1,12 +1,11 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import HeaderNavi from "./Naviheader";
 import filtering from "../img/filtering.png";
 import addProject from "../img/addProject.png";
 
 
-const ProjectItem = ({project}) => {
-    let usersStorage = JSON.parse(localStorage.getItem('usersStorage'));
+const ProjectItem = ({project, users}) => {
+    let usersStorage = users;
     var authors = [];
     for (var projectUser of project.users) {
         for (var user of usersStorage) {
@@ -16,7 +15,6 @@ const ProjectItem = ({project}) => {
             }
         }
     }
-    console.log(authors)
 
     return (
         <div className={'container'}>
@@ -41,7 +39,7 @@ const ProjectItem = ({project}) => {
     )
 }
 
-const ProjectList = ({projects}) => {
+const ProjectList = ({projects, users}) => {
 
     return (
         <div>
@@ -83,7 +81,7 @@ const ProjectList = ({projects}) => {
                         <hr/>
                     </div>
                 </div>
-                {projects.map((project) => <ProjectItem project={project}/>)}
+                {projects.map((project) => <ProjectItem project={project} users={users}/>)}
             </div>
         </div>
 

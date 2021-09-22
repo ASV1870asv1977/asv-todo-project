@@ -30,38 +30,42 @@ class LoginForm extends React.Component {
     }
 
     render() {
+        console.log('FLAG___', this.props.flag)
         return (
-                <div className="auth_main" id={"auth_main"}>
-                    <div className="auth_main_content">
-                        <div className="auth_main_content_header">
-                            <h2 style={{color: "#253c58"}}>To Do</h2>
-                            <p>Авторизация пользователя</p>
-                        </div>
-                        <form className="auth_main_content_body" action=""
-                              onSubmit={(event) => this.handlerOnSubmit(event)}>
-                            <input className="auth_main_content_body_input"
-                                   type="text"
-                                   name="username"
-                                   placeholder=" Логин"
-                                   onChange={(event) => this.handlerOnChange(event)}/>
-                            <input className="auth_main_content_body_input"
-                                   type="password"
-                                   name="password"
-                                   placeholder=" Пароль"
-                                   onChange={(event) => this.handlerOnChange(event)}/>
+            <div className="auth_main" id={"auth_main"}>
+                <div className="auth_main_content">
+                    <div className="auth_main_content_header">
+                        <h2 style={{color: "#253c58"}}>To Do</h2>
 
-                            <input className="auth_main_content_body_submit"
-                                   type="submit"
-                                   value="Авторизироваться"/>
-                        </form>
-                        <div className="auth_main_content_footer">
-                            <img src={facebook} alt=""/>
-                            <img src={twitter} alt=""/>
-                            <img src={instagram} alt=""/>
-                            <img src={google} alt=""/>
-                        </div>
+                        {this.props.flag ?
+                            <p style={{color: '#C44303'}}>Неверный логин или пароль!</p>:
+                            <p>Авторизация пользователя</p>}
+                    </div>
+                    <form className="auth_main_content_body" action=""
+                          onSubmit={(event) => this.handlerOnSubmit(event)}>
+                        <input className="auth_main_content_body_input"
+                               type="text"
+                               name="username"
+                               placeholder=" Логин"
+                               onChange={(event) => this.handlerOnChange(event)}/>
+                        <input className="auth_main_content_body_input"
+                               type="password"
+                               name="password"
+                               placeholder=" Пароль"
+                               onChange={(event) => this.handlerOnChange(event)}/>
+
+                        <input className="auth_main_content_body_submit"
+                               type="submit"
+                               value="Авторизироваться"/>
+                    </form>
+                    <div className="auth_main_content_footer">
+                        <img src={facebook} alt=""/>
+                        <img src={twitter} alt=""/>
+                        <img src={instagram} alt=""/>
+                        <img src={google} alt=""/>
                     </div>
                 </div>
+            </div>
         )
     }
 }

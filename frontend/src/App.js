@@ -38,17 +38,23 @@ class App extends React.Component {
 
     logout = (e) => {
         this.setToken('');
-        localStorage.removeItem('usersStorage');
-        localStorage.removeItem('projectsStorage');
-        localStorage.removeItem('todosStorage');
+        localStorage.removeItem('nameNavi');
+        localStorage.removeItem('flag');
     }
 
     getToken(username, password) {
-        axios.post(get_url('api-token-auth/'),
+        axios.post(get_url('api/token-auth/'),
             {username: username, password: password}
         ).then(response => {
-            this.setToken(response.data['token'])
-        }).catch(error => alert('Неверный логин или пароль'))
+            this.setToken(response.data['token']);
+            localStorage.setItem('flag', this.flag);
+        }).catch(error => {
+                this.flag = 1;
+                localStorage.setItem('flag', this.flag);
+                window.location.reload();
+            }
+        )
+
         this.nameNavi = username;
         localStorage.setItem('nameNavi', this.nameNavi);
         document.getElementById("auth_main").style.display = 'none';
@@ -76,8 +82,6 @@ class App extends React.Component {
             .then(response => {
                 this.setState({users: response.data['results']});
                 console.log(this.state.users);
-                let usersStorage = JSON.stringify(this.state.users);
-                localStorage.setItem('usersStorage', usersStorage);
             })
             .catch(error => console.log(error))
 
@@ -85,8 +89,6 @@ class App extends React.Component {
             .then(response => {
                 this.setState({projects: response.data['results']});
                 console.log(this.state.projects);
-                let projectsStorage = JSON.stringify(this.state.projects);
-                localStorage.setItem('projectsStorage', projectsStorage);
             })
             .catch(error => {
                 console.log(error)
@@ -97,8 +99,6 @@ class App extends React.Component {
             .then(response => {
                 this.setState({todos: response.data['results']});
                 console.log(this.state.todos);
-                let todosStorage = JSON.stringify(this.state.todos);
-                localStorage.setItem('todosStorage', todosStorage);
             })
             .catch(error => {
                 console.log(error)
@@ -125,23 +125,34 @@ class App extends React.Component {
     }
 
     render() {
+        this.state.flag = localStorage.getItem('flag')
+        let username = localStorage.getItem('nameNavi');
+        for (let user of this.state.users) {
+            if (user['username'] === username) {
+                var userLastName = user['last_name'];
+                var userFirstName = user['first_name'];
+            }
+        }
+        this.state.nameNavi = userFirstName + ' ' + userLastName;
+
         return (
             <div className={'App'}>
                 <BrowserRouter>
 
                     <HeaderNavi
                         logout={this.logout}
-                        username={localStorage.getItem('nameNavi')}
+                        username={this.state.nameNavi}
                         token={this.state.token}/>
                     <Switch>
                         <Route exact path={'/'} component={() => <MainContent/>}/>
                         <Route exact path={'/projects/'}
-                               component={() => <ProjectList projects={this.state.projects}/>}/>
-                        <Route exact path={'/todos/'} component={() => <TodosList todos={this.state.todos}/>}/>
-
-
-                        <Route exact path={'/login'}>
-                            <LoginForm getToken={(username, password) => this.getToken(username, password)}/>
+                               component={() => <ProjectList projects={this.state.projects}
+                                                             users={this.state.users}/>}/>
+                        <Route exact path={'/todos/'} component={() => <TodosList todos={this.state.todos}
+                                                                                  projects={this.state.projects}/>}/>
+                        <Route exact path={'/login/'}>
+                            <LoginForm getToken={(username, password) => this.getToken(username, password)}
+                                flag={this.state.flag}/>
                         </Route>
 
                         {/*<Route path={'/project/:id'} component={() => <ProjectDetails todos={this.state.todos}/>}/>*/}
