@@ -41,19 +41,12 @@ const UserList = ({users}) => {
                     <div className={'top__menu'}>
                         <Link to={'/users/'} className={"top__menu__text bottom__menu__navi"}>
                             <img src={addUser} className={'top__menu__image'}/>
-                            Добавить
+                            Добавить пользователя
                         </Link>
                         <Link to={'/users/'} className={"top__menu__text bottom__menu__navi"}>
                             <img src={group} className={'top__menu__image'}/>
                             Группы
                         </Link>
-                        <form className={'bottom__menu'}>
-                            <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
-                            <div className={'bottom__menu__search__button-area'}
-                                 type="submit" value=" ">
-                                <img src={filtering} className={'top__menu__image'}/>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>

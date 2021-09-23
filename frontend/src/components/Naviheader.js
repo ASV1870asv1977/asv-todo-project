@@ -8,7 +8,7 @@ import main from "../img/main.png";
 import inTodo from "../img/intodo.png";
 import outTodo from "../img/outtodo.png";
 import userAuth from "../img/userAuth.png";
-
+import puzzle from "../img/puzzles.png";
 
 class HeaderNavi extends React.Component {
 
@@ -73,7 +73,9 @@ class HeaderNavi extends React.Component {
                 <div className="top">
                     <div className="container top__box">
                         <div className="top__info">
+
                             <h1 className="top__heading"><b>To Do</b></h1>
+                            <img src={puzzle} className={"top__menu__background"}/>
                         </div>
                     </div>
                 </div>

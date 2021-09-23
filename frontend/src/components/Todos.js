@@ -51,15 +51,8 @@ const TodosList = ({todos, projects}) => {
                     <div className={'top__menu'}>
                         <Link to={'/todos/'} className={"top__menu__text bottom__menu__navi"}>
                             <img src={addTodo} className={'top__menu__image'}/>
-                            Создать
+                            Создать заметку
                         </Link>
-                        <form className={'bottom__menu'}>
-                            <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
-                            <div className={'bottom__menu__search__button-area'}
-                                 type="submit" value=" ">
-                                <img src={filtering} className={'top__menu__image'}/>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>

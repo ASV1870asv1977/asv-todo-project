@@ -7,10 +7,11 @@ import ProjectList from "./components/Projects";
 import TodosList from "./components/Todos";
 import {BrowserRouter, Route, Switch, Link, Redirect} from "react-router-dom";
 import HeaderNavi from "./components/Naviheader";
-import ProjectDetails from "./components/ProjectDetails";
+
 import MainContent from "./components/Main";
 import LoginForm from "./components/Auth";
 import Cookies from "universal-cookie/lib";
+import ProjectDetails from "./components/ProjectDetails";
 
 
 const API_ROOT = 'http://127.0.0.1:8000/';
@@ -40,6 +41,7 @@ class App extends React.Component {
         this.setToken('');
         localStorage.removeItem('nameNavi');
         localStorage.removeItem('flag');
+
     }
 
     getToken(username, password) {
@@ -152,22 +154,20 @@ class App extends React.Component {
                                                                                   projects={this.state.projects}/>}/>
                         <Route exact path={'/login/'}>
                             <LoginForm getToken={(username, password) => this.getToken(username, password)}
-                                flag={this.state.flag}/>
+                                       flag={this.state.flag}/>
                         </Route>
 
-                        {/*<Route path={'/project/:id'} component={() => <ProjectDetails todos={this.state.todos}/>}/>*/}
+                        <Route path={'/project/:id'} component={() => <ProjectDetails todos={this.state.todos}
+                                                                                      projects={this.state.projects}
+                                                                                      users={this.state.users}
+                        />}/>
 
-                        // Не успел доработать
-                        {/*<Route path="/project/:id">*/}
-                        {/*    <ProjectDetails getProject={(id) => this.getProject(id)}*/}
-                        {/*                    item={this.state.projects}*/}
-                        {/*                    todos={this.state.todos}/>*/}
-                        {/*</Route>*/}
 
                         <Route exact path={'/users/'} component={() => <UserList users={this.state.users}/>}/>
                         <Route component={pageNotFound404}/>
                     </Switch>
                 </BrowserRouter>
+
             </div>
         )
     }

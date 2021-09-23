@@ -5,6 +5,7 @@ import addProject from "../img/addProject.png";
 
 
 const ProjectItem = ({project, users}) => {
+
     let usersStorage = users;
     var authors = [];
     for (var projectUser of project.users) {
@@ -49,15 +50,8 @@ const ProjectList = ({projects, users}) => {
                     <div className={'top__menu'}>
                         <Link to={'/'} className={"top__menu__text bottom__menu__navi"}>
                             <img src={addProject} className={'top__menu__image'}/>
-                            Создать
+                            Создать проект
                         </Link>
-                        <form className={'bottom__menu'}>
-                            <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
-                            <div className={'bottom__menu__search__button-area'}
-                                 type="submit" value=" ">
-                                <img src={filtering} className={'top__menu__image'}/>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
