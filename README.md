@@ -1,1 +1,6 @@
-TODO messages project to Django REST
+To Do - Django REST project
+
+Login details.
+
+login: django,
+password: geekbrains
