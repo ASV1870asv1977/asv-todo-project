@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework.authtoken',
     'drf_yasg',
+    'graphene_django',
 
     # custom apps
     'usersapp',
@@ -171,3 +172,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     #"http://192.168.1.108:3000"
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'todo.schema.schema',
+}
