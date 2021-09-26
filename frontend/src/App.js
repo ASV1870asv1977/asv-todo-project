@@ -142,7 +142,7 @@ class App extends React.Component {
                 <BrowserRouter>
 
                     <HeaderNavi
-                        logout={this.logout}
+                        logout={() => this.logout()}
                         username={this.state.nameNavi}
                         token={this.state.token}/>
                     <Switch>
@@ -161,7 +161,6 @@ class App extends React.Component {
                                                                                       projects={this.state.projects}
                                                                                       users={this.state.users}
                         />}/>
-
 
                         <Route exact path={'/users/'} component={() => <UserList users={this.state.users}/>}/>
                         <Route component={pageNotFound404}/>

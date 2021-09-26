@@ -16,11 +16,17 @@ class Project(models.Model):
 
 
 class Todo(models.Model):
-    short_note = models.ForeignKey(Project, related_name='project_name', on_delete=models.CASCADE)
+    short_note = models.ForeignKey(Project,
+                                   related_name='todo_project',
+                                   on_delete=models.CASCADE)
     description = models.TextField()
-    created_by = models.ForeignKey(User, related_name='crater', on_delete=models.PROTECT)
-    created_at = models.DateTimeField('Дата созданния', auto_now_add=True)
-    update_at = models.DateTimeField('Дата обновления', auto_now=True)
+    created_by = models.ForeignKey(User,
+                                   related_name='user_todo',
+                                   on_delete=models.PROTECT)
+    created_at = models.DateTimeField('Дата созданния',
+                                      auto_now_add=True)
+    update_at = models.DateTimeField('Дата обновления',
+                                     auto_now=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
