@@ -1,22 +1,14 @@
 import React from "react";
 import {useParams, useLocation, Link} from "react-router-dom";
 
-import HeaderNavi from "./Naviheader";
-import projects from "../img/projects.png";
-import todosImg from "../img/todos.png";
-import usersImg from "../img/users.png";
-import search from "../img/search.png";
 import addTodo from "../img/addTodo.png";
+import search from "../img/search.png";
+import deleteIcon from "../img/deleteIcon.png";
+import edit from "../img/edit.png";
 
 
 const TodoItem = ({todo, filteredProject}) => {
-    let projectsStorage = filteredProject;
-    for (var project of projectsStorage) {
-        if (todo.short_note === project['id']) {
-            todo.short_note = project['name'];
-        }
-    }
-
+    todo.short_note = filteredProject['name'];
     return (
         <div className={'container'}>
             <div className="card__box__list">
@@ -45,10 +37,15 @@ const TodoItem = ({todo, filteredProject}) => {
     )
 }
 
-const ProjectDetail = ({project, users}) => {
+// function HandProjectEdit() {
+//     document.getElementsByClassName("project__detail").setAttr('disabled', 'false')
+//
+// }
+
+const ProjectDetail = ({filteredProject, users, countTodos}) => {
     let usersStorage = users;
     var authors = [];
-    for (var projectUser of project.users) {
+    for (var projectUser of filteredProject.users) {
         for (var user of usersStorage) {
             if (projectUser === user['id']) {
                 projectUser = user['first_name'][0] + '.' + user['last_name'];
@@ -60,21 +57,45 @@ const ProjectDetail = ({project, users}) => {
         <div className="container ">
             <p className="project__info_text_heading"><b>Информация о проекте:</b></p>
             <div className="project__info project__info_text_heading">
+
                 <div className="project__info__card">
-                    <div className="project__card__key">ID проекта</div>
-                    <div className="project__card__value">{project.id}</div>
+                    <div className="display__flex">
+                        <div className="project__card__key">ID проекта</div>
+                        <input className="project__detail" type="text" placeholder={filteredProject.id}
+                               disabled="True"/>
+                    </div>
+                    <div className={"top__menu__text bottom__menu__navi"} >
+                        <img src={edit} className={'top__menu__image'}/>
+                        Редактировать
+                    </div>
                 </div>
                 <div className="project__info__card">
-                    <div className="project__card__key">Название проекта</div>
-                    <div className="project__card__value">{project.name}</div>
+                    <div className="display__flex">
+                        <div className="project__card__key">Название проекта</div>
+                        <input className="project__detail" type="text" placeholder={filteredProject.name}
+                               disabled="True"/>
+                    </div>
                 </div>
                 <div className="project__info__card">
-                    <div className="project__card__key">Автор проекта</div>
-                    <div className="project__card__value">{authors + ' '}</div>
+                    <div className="display__flex">
+                        <div className="project__card__key">Автор проекта</div>
+                        <input className="project__detail" type="text"
+                               placeholder={authors.map((author) => author + " ")}
+                               disabled="True"/>
+                    </div>
                 </div>
                 <div className="project__info__card">
-                    <div className="project__card__key">Ссылка на репозиторий</div>
-                    <div className="project__card__value"><a href={project.url_repo}>{project.url_repo}</a></div>
+                    <div className="display__flex">
+                        <div className="project__card__key">Ссылка на репозиторий</div>
+                        <input className="project__detail" type="text" placeholder={filteredProject.url_repo}
+                               disabled="True"/>
+                    </div>
+                </div>
+                <div className="project__info__card">
+                    <div className="display__flex">
+                        <div className="project__card__key">Количество заметок</div>
+                        <input className="project__detail" type="text" placeholder={countTodos} disabled="True"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -82,27 +103,56 @@ const ProjectDetail = ({project, users}) => {
 }
 
 
-const ProjectDetails = ({todos, projects, users}) => {
+const ProjectDetails = ({todos, projects, users, projectDelete}) => {
+    console.log('todos', todos)
 
     let {id} = useParams();
-    let filteredTodos = todos.filter((todo) => todo.short_note === +id);
     let filteredProject = projects.filter((project) => project.id === +id);
+    filteredProject = filteredProject[0]
+
+    let filteredTodos = todos.filter((todo) => todo.short_note === filteredProject.name);
+    // let filteredTodos = []
+    // for (let i = 0; i < todos.length; i++) {
+    //     if (todos[i].short_note === filteredProject.name) {
+    //         filteredTodos.push(todos[i]);
+    //     }
+    // }
+
+    let countTodos = filteredTodos.length
+    console.log('filteredProject', filteredProject)
+    console.log('filteredTodos', filteredTodos)
 
     return (
         <div>
             <div className={"navi__bottom"}>
                 <div className={"container navi__content"}>
-                    <div className={'top__menu'}>
-                        <Link to={'/todos/'} className={"top__menu__text bottom__menu__navi"}>
-                            <img src={addTodo} className={'top__menu__image'}/>
-                            Создать заметку
-                        </Link>
+
+                    <Link to={'/todos/'} className={"top__menu__text bottom__menu__navi"}>
+                        <img src={addTodo} className={'top__menu__image'}/>
+                        Создать заметку к проекту "{filteredProject.name}"
+                    </Link>
+                    <form className={'display__flex'}>
+                        <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
+                        <div className={'bottom__menu__search__button-area'} type="submit" value=" ">
+                            <img src={search} className={'top__menu__image'}/>
+                        </div>
+                    </form>
+
+                    <div className={"top__menu__text bottom__menu__navi bottom__menu__navi-delete"}
+                         onClick={() => projectDelete(filteredProject.id)}>
+                        <img src={deleteIcon} className={'top__menu__image'}/>
+                        Удалить проект "{filteredProject.name}"
                     </div>
+
+
                 </div>
             </div>
             <div className={'content'}>
-                {filteredProject.map((project) => <ProjectDetail project={project} users={users}/>)}
+                <ProjectDetail filteredProject={filteredProject}
+                               users={users}
+                               countTodos={countTodos}/>
             </div>
+
             <div className={'container'}>
                 <div className="card__box__list">
                     <hr/>

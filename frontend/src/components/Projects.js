@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import filtering from "../img/filtering.png";
 import addProject from "../img/addProject.png";
+import search from "../img/search.png";
 
 
 const ProjectItem = ({project, users}) => {
@@ -21,7 +22,7 @@ const ProjectItem = ({project, users}) => {
         <div className={'container'}>
             <div className="card__box__list">
                 <div className="card__box__component card__box__component-text">
-                    <Link className="card__box__component-link" to={`/project/${project.id}/`}>
+                    <Link className="card__box__component-link" to={`/project/${project.id}/`} >
                         {project.id}
                     </Link>
                     <div className="card__box__component-element">
@@ -31,7 +32,7 @@ const ProjectItem = ({project, users}) => {
                         <a href={project.url_repo}>{project.url_repo}</a>
                     </div>
                     <div className="card__box__component-element">
-                        {authors + ' '}
+                        <p>{authors.map((author) => author + " ")}</p>
                     </div>
                 </div>
                 <hr/>
@@ -47,12 +48,18 @@ const ProjectList = ({projects, users}) => {
 
             <div className={"navi__bottom"}>
                 <div className={"container navi__content"}>
-                    <div className={'top__menu'}>
-                        <Link to={'/'} className={"top__menu__text bottom__menu__navi"}>
+
+                        <Link to={'/projects/create'} className={"top__menu__text bottom__menu__navi"}>
                             <img src={addProject} className={'top__menu__image'}/>
                             Создать проект
                         </Link>
-                    </div>
+                        <form className={'display__flex'}>
+                            <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
+                            <div className={'bottom__menu__search__button-area'} type="submit" value=" ">
+                                <img src={search} className={'top__menu__image'}/>
+                            </div>
+                        </form>
+
                 </div>
             </div>
             <div className={'content'}>
@@ -77,9 +84,11 @@ const ProjectList = ({projects, users}) => {
                 </div>
                 {projects.map((project) => <ProjectItem project={project} users={users}/>)}
             </div>
+
         </div>
 
     )
+
 }
 
 

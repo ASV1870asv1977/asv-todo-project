@@ -42,12 +42,7 @@ class HeaderNavi extends React.Component {
                             </div> :
                             <div style={{display: 'none'}}/>}
 
-                        <form className={'top__menu'}>
-                            <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
-                            <div className={'top__menu__search__button-area'} type="submit" value=" ">
-                                <img src={search} className={'top__menu__image'}/>
-                            </div>
-                        </form>
+
 
                         {this.props.token ?
                             <div className={'top__menu__navi-link'}>

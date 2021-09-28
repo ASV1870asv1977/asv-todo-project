@@ -4,6 +4,7 @@ import HeaderNavi from "./Naviheader";
 import addUser from "../img/addUser.png";
 import filtering from "../img/filtering.png";
 import group from "../img/group.png";
+import search from "../img/search.png";
 
 
 const UserItem = ({user}) => {
@@ -38,16 +39,18 @@ const UserList = ({users}) => {
 
             <div className={"navi__bottom"}>
                 <div className={"container navi__content"}>
-                    <div className={'top__menu'}>
+
                         <Link to={'/users/'} className={"top__menu__text bottom__menu__navi"}>
                             <img src={addUser} className={'top__menu__image'}/>
                             Добавить пользователя
                         </Link>
-                        <Link to={'/users/'} className={"top__menu__text bottom__menu__navi"}>
-                            <img src={group} className={'top__menu__image'}/>
-                            Группы
-                        </Link>
-                    </div>
+                        <form className={"display__flex"}>
+                            <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
+                            <div className={'bottom__menu__search__button-area'} type="submit" value=" ">
+                                <img src={search} className={'top__menu__image'}/>
+                            </div>
+                        </form>
+
                 </div>
             </div>
             <div className={'content'}>
