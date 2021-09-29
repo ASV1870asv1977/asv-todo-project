@@ -27,7 +27,7 @@ class HeaderNavi extends React.Component {
                         {this.props.token ?
 
                             <div className={'top__menu'}>
-                                <Link to={'/projects/'} className={"top__menu__text top__menu__navi"}>
+                                <Link to={'/projects/'} className={"top__menu__text top__menu__navi"} onClick={() => {this.props.loadData()}}>
                                     <img src={projectsImg} className={'top__menu__image'}/>
                                     <p>Проекты</p>
                                 </Link>

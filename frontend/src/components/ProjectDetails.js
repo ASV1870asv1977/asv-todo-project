@@ -1,11 +1,39 @@
 import React from "react";
 import {useParams, useLocation, Link} from "react-router-dom";
 
+
 import addTodo from "../img/addTodo.png";
 import search from "../img/search.png";
 import deleteIcon from "../img/deleteIcon.png";
 import edit from "../img/edit.png";
+import save from "../img/save.png";
+import cancel from "../img/cancel.png";
 
+
+export function handlerUpdate() {
+
+    let project_update = {
+        id: document.getElementById('id_project').value,
+        name: document.getElementById('name_project').value,
+        users: document.getElementById('author_project').value,
+        url_repo: document.getElementById('repo_project').value
+    }
+    localStorage.setItem('project_update', JSON.stringify(project_update));
+    document.getElementById('project_update_form').style.display = 'block';
+    document.getElementById('edit_save').style.display = 'none';
+
+    const name_project = document.getElementById("name_project");
+    const author_project = document.getElementById("author_project");
+    const repo_project = document.getElementById("repo_project");
+
+    name_project.setAttribute('disabled', 'true');
+    author_project.setAttribute('disabled', 'true');
+    repo_project.setAttribute('disabled', 'true');
+
+    name_project.classList.remove('project__detail__edit');
+    author_project.classList.remove('project__detail__edit');
+    repo_project.classList.remove('project__detail__edit');
+}
 
 const TodoItem = ({todo, filteredProject}) => {
     todo.short_note = filteredProject['name'];
@@ -37,18 +65,32 @@ const TodoItem = ({todo, filteredProject}) => {
     )
 }
 
-// function HandProjectEdit() {
-//     document.getElementsByClassName("project__detail").setAttr('disabled', 'false')
-//
-// }
+function HandProjectEdit() {
+    const name_project = document.getElementById("name_project");
+    const author_project = document.getElementById("author_project");
+    const repo_project = document.getElementById("repo_project");
+    document.getElementById("edit_project").style.display = 'none';
+    document.getElementById("edit_save").style.display = 'block';
+    document.getElementById("edit_cancel").style.display = 'block';
+
+    name_project.removeAttribute('disabled');
+    name_project.removeAttribute('placeholder');
+    author_project.removeAttribute('disabled');
+    repo_project.removeAttribute('disabled');
+
+    name_project.classList.add('project__detail__edit');
+    author_project.classList.add('project__detail__edit');
+    repo_project.classList.add('project__detail__edit');
+}
 
 const ProjectDetail = ({filteredProject, users, countTodos}) => {
+
     let usersStorage = users;
     var authors = [];
     for (var projectUser of filteredProject.users) {
         for (var user of usersStorage) {
             if (projectUser === user['id']) {
-                projectUser = user['first_name'][0] + '.' + user['last_name'];
+                projectUser = user['last_name'];
                 authors.push(projectUser)
             }
         }
@@ -61,41 +103,68 @@ const ProjectDetail = ({filteredProject, users, countTodos}) => {
                 <div className="project__info__card">
                     <div className="display__flex">
                         <div className="project__card__key">ID проекта</div>
-                        <input className="project__detail" type="text" placeholder={filteredProject.id}
-                               disabled="True"/>
+                        <input className="project__detail" type="text" id="id_project" placeholder={filteredProject.id}
+                               disabled
+                               value={filteredProject.id}/>
                     </div>
-                    <div className={"top__menu__text bottom__menu__navi"} >
+                    <div className={"top__menu__text bottom__menu__navi"} id="edit_project"
+                         onClick={HandProjectEdit}>
                         <img src={edit} className={'top__menu__image'}/>
                         Редактировать
                     </div>
+
+
+                    <div className={"top__menu__text bottom__menu__navi"} id="edit_save"
+                         onClick={handlerUpdate}
+                         style={{display: 'none'}}>
+                        <img src={save} className={'top__menu__image'}/>
+                        Сохранить
+                    </div>
+
+
                 </div>
                 <div className="project__info__card">
                     <div className="display__flex">
                         <div className="project__card__key">Название проекта</div>
-                        <input className="project__detail" type="text" placeholder={filteredProject.name}
-                               disabled="True"/>
+                        <input className="project__detail" name="name" id="name_project" type="text"
+                               placeholder={filteredProject.name}
+                               disabled/>
                     </div>
                 </div>
                 <div className="project__info__card">
                     <div className="display__flex">
                         <div className="project__card__key">Автор проекта</div>
-                        <input className="project__detail" type="text"
-                               placeholder={authors.map((author) => author + " ")}
-                               disabled="True"/>
+                        <select className="project__detail" name="users" id="author_project"
+                                disabled>
+                            <option
+                                value={authors.map((author) => author + " ")}>{authors.map((author) => author + " ")}
+                            </option>
+                            {users.map((user) => (
+                                <option value={user.id} key={user.id}>
+                                    {user.last_name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
                 <div className="project__info__card">
                     <div className="display__flex">
                         <div className="project__card__key">Ссылка на репозиторий</div>
-                        <input className="project__detail" type="text" placeholder={filteredProject.url_repo}
-                               disabled="True"/>
+                        <input className="project__detail" name="url_repo" id="repo_project" type="url"
+                               placeholder={filteredProject.url_repo}
+                               disabled="true"/>
                     </div>
                 </div>
                 <div className="project__info__card">
                     <div className="display__flex">
                         <div className="project__card__key">Количество заметок</div>
-                        <input className="project__detail" type="text" placeholder={countTodos} disabled="True"/>
+                        <input className="project__detail" type="text" placeholder={countTodos} disabled="true"/>
                     </div>
+                    <Link to={'/projects/'} className={"top__menu__text bottom__menu__navi"} id="edit_cancel"
+                          style={{display: 'none'}}>
+                        <img src={cancel} className={'top__menu__image'}/>
+                        Отменить
+                    </Link>
                 </div>
             </div>
         </div>
@@ -103,7 +172,7 @@ const ProjectDetail = ({filteredProject, users, countTodos}) => {
 }
 
 
-const ProjectDetails = ({todos, projects, users, projectDelete}) => {
+export const ProjectDetails = ({todos, projects, users, projectDelete, projectUpdate}) => {
     console.log('todos', todos)
 
     let {id} = useParams();
@@ -111,12 +180,6 @@ const ProjectDetails = ({todos, projects, users, projectDelete}) => {
     filteredProject = filteredProject[0]
 
     let filteredTodos = todos.filter((todo) => todo.short_note === filteredProject.name);
-    // let filteredTodos = []
-    // for (let i = 0; i < todos.length; i++) {
-    //     if (todos[i].short_note === filteredProject.name) {
-    //         filteredTodos.push(todos[i]);
-    //     }
-    // }
 
     let countTodos = filteredTodos.length
     console.log('filteredProject', filteredProject)
@@ -150,35 +213,46 @@ const ProjectDetails = ({todos, projects, users, projectDelete}) => {
             <div className={'content'}>
                 <ProjectDetail filteredProject={filteredProject}
                                users={users}
-                               countTodos={countTodos}/>
+                               countTodos={countTodos}>
+                </ProjectDetail>
             </div>
+            <div className="container project_update_case">
+                <Link to={'/projects/'}
+                      className="project_update_form top__menu__text"
+                      id="project_update_form"
+                      onClick={projectUpdate}>
+                    Подтвердить изменения
+                </Link>
+            </div>
+            {countTodos ?
+                <div className={'container'}>
 
-            <div className={'container'}>
-                <div className="card__box__list">
-                    <hr/>
-                    <div className="card__box__component card__box__component-text">
-                        <div className="card__box__component-link" style={{background: 'none'}}>
+                    <div className="card__box__list">
+                        <hr/>
+                        <div className="card__box__component card__box__component-text">
+                            <div className="card__box__component-link" style={{background: 'none'}}>
+                            </div>
+                            <div className="card__box__component-element">
+                                <b>Заметка в проект</b>
+                            </div>
+                            <div className="card__box__component-element">
+                                <b>Тема заметки</b>
+                            </div>
+                            <div className="card__box__component-element">
+                                <b>Автор</b>
+                            </div>
+                            <div className="card__box__component-element">
+                                <b>Создана</b>
+                            </div>
+                            <div className="card__box__component-element">
+                                <b>Обновлена</b>
+                            </div>
                         </div>
-                        <div className="card__box__component-element">
-                            <b>Заметка в проект</b>
-                        </div>
-                        <div className="card__box__component-element">
-                            <b>Тема заметки</b>
-                        </div>
-                        <div className="card__box__component-element">
-                            <b>Автор</b>
-                        </div>
-                        <div className="card__box__component-element">
-                            <b>Создана</b>
-                        </div>
-                        <div className="card__box__component-element">
-                            <b>Обновлена</b>
-                        </div>
+                        <hr/>
                     </div>
-                    <hr/>
-                </div>
-                {filteredTodos.map((todo) => <TodoItem todo={todo} filteredProject={filteredProject}/>)}
-            </div>
+                    {filteredTodos.map((todo) => <TodoItem todo={todo} filteredProject={filteredProject}/>)}
+                </div> :
+                <div></div>}
         </div>
     )
 }

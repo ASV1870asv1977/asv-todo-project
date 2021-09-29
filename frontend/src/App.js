@@ -42,7 +42,7 @@ class App extends React.Component {
         this.setToken('');
         localStorage.removeItem('nameNavi');
         localStorage.removeItem('flag');
-
+        localStorage.removeItem('project_update');
     }
 
     getToken(username, password) {
@@ -147,16 +147,57 @@ class App extends React.Component {
     projectDelete(id) {
         console.log('delete project', id, this);
         alert('Удалить проект?')
-        // const headers = this.getHeaders();
-        // axios
-        //     .delete('http://127.0.0.1:8000/api/projects/' + id + '/',
-        //         {headers})
-        //     .then(result => {
-        //         this.setState({
-        //             projects: this.state.projects.filter((item) => item.id !== id)
-        //         })
-        //     })
-        //     .catch(error => console.log(error))
+        const headers = this.getHeaders();
+        axios
+            .delete('http://127.0.0.1:8000/api/projects/' + id + '/',
+                {headers})
+            .then(result => {
+                this.setState({
+                    projects: this.state.projects.filter((item) => item.id !== id)
+                })
+            })
+            .catch(error => console.log(error))
+        alert('Проект удален')
+        window.location.assign('/projects/');
+    }
+
+    projectsFilter(filter) {
+        const headers = this.getHeaders();
+        axios.get(get_url('api/projects/' + '?name=' + filter), {headers})
+            .then(response => {
+                this.setState({projects: response.data});  // ['results']
+                console.log('filtering ===>', this.state.projects);
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({projects: []})
+            })
+    }
+
+    projectUpdate() {
+        let project_update = JSON.parse(localStorage.getItem("project_update"));
+        console.log('update project ++', project_update);
+        for (let user of this.state.users) {
+            if (user.last_name === project_update.users) {
+                project_update.users = parseInt(user.id);
+            }
+        }
+        project_update.users = [project_update.users]
+        console.log('update project ++++', project_update);
+        const headers = this.getHeaders();
+        axios
+            .put('http://127.0.0.1:8000/api/projects/' + parseInt(project_update.id) + '/',
+                {name: project_update.name, users: project_update.users, url_repo: project_update.url_repo},
+                {headers})
+            .then(result => {
+                // const updateProject = result.data;
+                console.log('result.data', result)
+                // this.setState({
+                //     projects: [...this.state.projects, updateProject]
+                // })
+            })
+            .catch(error => console.log(error))
+        alert('Проект обновлен')
         window.location.assign('/projects/');
     }
 
@@ -178,7 +219,6 @@ class App extends React.Component {
                     todo.short_note = project['name'];
                 }
         }
-        // console.log('this.state.todos', this.state.todos);
 
         return (
             <div className={'App'}>
@@ -186,6 +226,7 @@ class App extends React.Component {
 
                     <HeaderNavi
                         logout={() => this.logout()}
+                        loadData={() => this.loadData()}
                         username={this.state.nameNavi}
                         token={this.state.token}/>
                     <Switch>
@@ -193,7 +234,8 @@ class App extends React.Component {
                         <Route exact path={'/projects/'}
                                component={() => <ProjectList projects={this.state.projects}
                                                              users={this.state.users}
-                                                             todos={this.state.todos}/>}/>
+                                                             todos={this.state.todos}
+                                                             projectsFilter={(filter) => this.projectsFilter(filter)}/>}/>
 
                         <Route exact path={'/projects/create'}>
                             <ProjectForm
@@ -208,11 +250,13 @@ class App extends React.Component {
                                        flag={this.state.flag}/>
                         </Route>
 
-                        <Route path={'/project/:id'} component={() => <ProjectDetails todos={this.state.todos}
-                                                                                      projects={this.state.projects}
-                                                                                      users={this.state.users}
-                                                                                      projectDelete={(id) => this.projectDelete(id)}
-                        />}/>
+                        <Route path={'/project/:id'}
+                               component={() =>
+                                   <ProjectDetails todos={this.state.todos}
+                                                   projects={this.state.projects}
+                                                   users={this.state.users}
+                                                   projectDelete={(id) => this.projectDelete(id)}
+                                                   projectUpdate={() => this.projectUpdate()}/>}/>
 
                         <Route exact path={'/users/'} component={() => <UserList users={this.state.users}/>}/>
                         <Route component={pageNotFound404}/>
@@ -228,6 +272,7 @@ export default App;
 
 
 // getProjectDetails() {
+
 //     const headers = this.getHeaders();
 //     const client = new GraphQLClient(get_url('graphql/', {headers}));
 //     const query = gql`

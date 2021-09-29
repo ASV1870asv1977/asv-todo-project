@@ -360,15 +360,40 @@ body {
 
 
 .project__detail {
-    width: 600px;
+    width: 400px;
     border: none;
     background: none;
+    color: #1f3f68;
+    font-size: 16px;
 }
 
 .project__detail::placeholder {
     color: #1f3f68;
     font-size: 16px;
+}
 
+.project__detail__edit {
+    width: 400px;
+    border: 1px solid #1f3f68;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.project_update_case {
+    display: flex;
+}
+
+.project_update_form {
+    display: none;
+    background: #e1f6e1;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: start;
+}
+
+.project_update_form:hover {
+    background: #c3f8c3;
 }
 
 

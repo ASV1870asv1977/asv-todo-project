@@ -21,9 +21,7 @@ class ProjectForm extends React.Component {
     }
 
     handlerOnSubmit(event) {
-        console.log('submit', this.state);
         this.state.users = [parseInt(this.state.users)]
-        console.log('submit==[]=>', this.state);
         event.preventDefault();
         this.props.projectCreate(this.state.name, this.state.users, this.state.url_repo);
         window.location.assign('/projects/');
@@ -37,9 +35,6 @@ class ProjectForm extends React.Component {
                     <div className="auth_main_content_header">
                         <h2 style={{color: "#253c58"}}>To Do</h2>
                         <p>Добавление проекта</p>
-                        {/*{this.props.flag ?*/}
-                        {/*    <p style={{color: '#C44303'}}>Неверный логин или пароль!</p>:*/}
-                        {/*    }*/}
                     </div>
 
                     <form onSubmit={(event) => this.handlerOnSubmit(event)} >
