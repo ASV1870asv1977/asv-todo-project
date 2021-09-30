@@ -57,7 +57,6 @@ const ProjectList = ({projects, users, projectsFilter}) => {
                         <input className={'top__menu__search__area top__menu__text'}
                                id="search_project"
                                type="text"
-
                         />
                         <div className={'bottom__menu__search__button-area'}
                              onClick={() => projectsFilter(document.getElementById("search_project").value)}>

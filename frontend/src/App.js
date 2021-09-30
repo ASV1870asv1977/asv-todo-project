@@ -1,6 +1,7 @@
 import './App.css';
 import React from "react";
 import axios from "axios";
+
 // import {GraphQLClient, gql} from 'graphql-request'
 import UserList from "./components/User";
 import ProjectList from "./components/Projects";
@@ -13,6 +14,9 @@ import LoginForm from "./components/Auth";
 import Cookies from "universal-cookie/lib";
 import ProjectDetails from "./components/ProjectDetails";
 import ProjectForm from "./components/ProjectForm";
+import TodoForm from "./components/TodoForm";
+import moment from "moment";
+import TodoDetails from "./components/TodoDetails";
 
 
 const API_ROOT = 'http://127.0.0.1:8000/';
@@ -101,7 +105,9 @@ class App extends React.Component {
         axios.get(get_url('api/todos/'), {headers})
             .then(response => {
                 this.setState({todos: response.data});  //  ['results']
-                console.log(this.state.todos);
+                // console.log('todos', this.state.todos);
+                this.state.todos = this.state.todos.filter((todo) => todo.is_active === true);
+                console.log('todos active', this.state.todos);
             })
             .catch(error => {
                 console.log(error)
@@ -190,15 +196,49 @@ class App extends React.Component {
                 {name: project_update.name, users: project_update.users, url_repo: project_update.url_repo},
                 {headers})
             .then(result => {
-                // const updateProject = result.data;
                 console.log('result.data', result)
-                // this.setState({
-                //     projects: [...this.state.projects, updateProject]
-                // })
             })
             .catch(error => console.log(error))
         alert('Проект обновлен')
         window.location.assign('/projects/');
+    }
+
+    todoCreate(short_note, description, created_by) {
+        const headers = this.getHeaders();
+        console.log('create todo', short_note, description, created_by)
+        alert('заметка создается')
+        axios
+            .post(get_url('api/todos/'),
+                {
+                    short_note: short_note,
+                    description: description,
+                    created_by: created_by
+                },
+                {headers})
+            .then(result => {
+                const newTodo = result.data;
+                console.log('result.data', newTodo)
+                this.setState({
+                    projects: [...this.state.todos, newTodo]
+                })
+            })
+            .catch(error => console.log(error))
+    }
+
+    todoDelete(id) {
+        console.log('delete todo', id, this);
+        alert('Удалить заметку?')
+        const headers = this.getHeaders();
+        axios
+            .delete('http://127.0.0.1:8000/api/todos/' + id + '/',
+                {headers})
+            .then(result => {
+                this.setState({
+                    todos: this.state.todos.filter((item) => item.id !== id)
+                })
+            })
+            .catch(error => console.log(error))
+        window.location.assign('/todos/');
     }
 
 
@@ -243,13 +283,6 @@ class App extends React.Component {
                                 users={this.state.users}/>
                         </Route>
 
-                        <Route exact path={'/todos/'} component={() => <TodosList todos={this.state.todos}
-                                                                                  projects={this.state.projects}/>}/>
-                        <Route exact path={'/login/'}>
-                            <LoginForm getToken={(username, password) => this.getToken(username, password)}
-                                       flag={this.state.flag}/>
-                        </Route>
-
                         <Route path={'/project/:id'}
                                component={() =>
                                    <ProjectDetails todos={this.state.todos}
@@ -257,6 +290,28 @@ class App extends React.Component {
                                                    users={this.state.users}
                                                    projectDelete={(id) => this.projectDelete(id)}
                                                    projectUpdate={() => this.projectUpdate()}/>}/>
+
+                        <Route exact path={'/todos/'} component={() => <TodosList todos={this.state.todos}
+                                                                                  projects={this.state.projects}/>}/>
+
+                        <Route exact path={'/todos/create/'}>
+                            <TodoForm
+                                todoCreate={(short_note, description, created_by) => this.todoCreate(short_note, description, created_by)}
+                                users={this.state.users}
+                                projects={this.state.projects}/>
+                        </Route>
+
+                        <Route path={'/todo/:id'}
+                               component={() =>
+                                   <TodoDetails todos={this.state.todos}
+                                                projects={this.state.projects}
+                                                users={this.state.users}
+                                                todoDelete={(id) => this.todoDelete(id)}/>}/>
+
+                        <Route exact path={'/login/'}>
+                            <LoginForm getToken={(username, password) => this.getToken(username, password)}
+                                       flag={this.state.flag}/>
+                        </Route>
 
                         <Route exact path={'/users/'} component={() => <UserList users={this.state.users}/>}/>
                         <Route component={pageNotFound404}/>

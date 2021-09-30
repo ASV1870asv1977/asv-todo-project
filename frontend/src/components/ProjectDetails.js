@@ -137,7 +137,7 @@ const ProjectDetail = ({filteredProject, users, countTodos}) => {
                         <select className="project__detail" name="users" id="author_project"
                                 disabled>
                             <option
-                                value={authors.map((author) => author + " ")}>{authors.map((author) => author + " ")}
+                                value={authors.map((author) => author + " ")}> {authors.map((author) => author + " ")}
                             </option>
                             {users.map((user) => (
                                 <option value={user.id} key={user.id}>
@@ -173,24 +173,19 @@ const ProjectDetail = ({filteredProject, users, countTodos}) => {
 
 
 export const ProjectDetails = ({todos, projects, users, projectDelete, projectUpdate}) => {
-    console.log('todos', todos)
 
     let {id} = useParams();
     let filteredProject = projects.filter((project) => project.id === +id);
-    filteredProject = filteredProject[0]
-
+    filteredProject = filteredProject[0];
     let filteredTodos = todos.filter((todo) => todo.short_note === filteredProject.name);
-
-    let countTodos = filteredTodos.length
-    console.log('filteredProject', filteredProject)
-    console.log('filteredTodos', filteredTodos)
+    let countTodos = filteredTodos.length;
 
     return (
         <div>
             <div className={"navi__bottom"}>
                 <div className={"container navi__content"}>
 
-                    <Link to={'/todos/'} className={"top__menu__text bottom__menu__navi"}>
+                    <Link to={'/todos/create/'} className={"top__menu__text bottom__menu__navi"}>
                         <img src={addTodo} className={'top__menu__image'}/>
                         Создать заметку к проекту "{filteredProject.name}"
                     </Link>
