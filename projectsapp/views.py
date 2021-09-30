@@ -9,25 +9,25 @@ from projectsapp.models import Project, Todo
 from projectsapp.serializers import ProjectModelSerializer, TodoModelSerializer
 
 
-class ProjectLimitOffsetPagination(LimitOffsetPagination):
-    default_limit = 10
+# class ProjectLimitOffsetPagination(LimitOffsetPagination):
+#     default_limit = 10
 
 
 class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
-    pagination_class = ProjectLimitOffsetPagination
+    # pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectFilters
 
 
-class TodoLimitOffsetPagination(LimitOffsetPagination):
-    default_limit = 20
+# class TodoLimitOffsetPagination(LimitOffsetPagination):
+#     default_limit = 20
 
 
 class TodoViewSet(ModelViewSet):
     queryset = Todo.objects.all()
     serializer_class = TodoModelSerializer
-    pagination_class = TodoLimitOffsetPagination
+    # pagination_class = TodoLimitOffsetPagination
     filterset_class = TodoFilter
 
     def destroy(self, request, *args, **kwargs):

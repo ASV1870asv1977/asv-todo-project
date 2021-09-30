@@ -28,6 +28,10 @@ class Query(ObjectType):
     all_projects = List(ProjectDjangoType)
     project_by_name = List(ProjectDjangoType,
                          name=String())
+
+    project_by_id = Field(ProjectDjangoType,
+                         pk=Int(required=True))
+
     all_todos = List(TodoDjangoType)
     all_users = List(UserDjangoType)
 
@@ -36,6 +40,10 @@ class Query(ObjectType):
 
     def resolve_project_by_name(self, info, name):
         return Project.objects.filter(name__contains=name)
+
+    def resolve_project_by_id(self, info, pk):
+        return Project.objects.filter(pk=pk).first()
+
 
     def resolve_all_todos(self, info):
         return Todo.objects.all()
@@ -71,6 +79,27 @@ schema = Schema(query=Query)
 # Вариант запроса для детализации по имени проекта в ProjectDetails.js
 # {
 #   projectByName(name: "Smart") {
+#     id
+#     name
+#     urlRepo
+#     users {
+#       firstName
+#       lastName
+#     }
+#     todoProject {
+#       description
+#       createdBy {
+#         firstName
+#         lastName
+#       }
+#       createdAt
+#       updateAt
+#     }
+#   }
+# }
+
+# {
+#   projectById(pk: 2) {
 #     id
 #     name
 #     urlRepo

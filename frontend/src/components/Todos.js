@@ -3,23 +3,19 @@ import {Link} from "react-router-dom";
 import HeaderNavi from "./Naviheader";
 import addTodo from "../img/addTodo.png";
 import filtering from "../img/filtering.png";
+import search from "../img/search.png";
 
 
 const TodoItem = ({todo, projects}) => {
 
-    let projectsStorage = projects;
-    for (var project of projectsStorage) {
-        if (todo.short_note === project['id']) {
-            todo.short_note = project['name'];
-        }
-    }
 
     return (
         <div className={'container'}>
             <div className="card__box__list">
                 <div className="card__box__component card__box__component-text">
-                    <div className="card__box__component-link" style={{background: 'none'}}>
-                    </div>
+                    <Link className="card__box__component-link" to={`/todo/${todo.id}/`}>
+                        {todo.id}
+                    </Link>
                     <div className="card__box__component-element">
                         {todo.short_note}
                     </div>
@@ -48,12 +44,18 @@ const TodosList = ({todos, projects}) => {
 
             <div className={"navi__bottom"}>
                 <div className={"container navi__content"}>
-                    <div className={'top__menu'}>
-                        <Link to={'/todos/'} className={"top__menu__text bottom__menu__navi"}>
-                            <img src={addTodo} className={'top__menu__image'}/>
-                            Создать заметку
-                        </Link>
-                    </div>
+
+                    <Link to={'/todos/create/'} className={"top__menu__text bottom__menu__navi"}>
+                        <img src={addTodo} className={'top__menu__image'}/>
+                        Создать заметку
+                    </Link>
+                    <form className={'display__flex'}>
+                        <input className={'top__menu__search__area top__menu__text'} type="search" name="text"/>
+                        <div className={'bottom__menu__search__button-area'} type="submit" value=" ">
+                            <img src={search} className={'top__menu__image'}/>
+                        </div>
+                    </form>
+
                 </div>
             </div>
             <div className={'content'}>
